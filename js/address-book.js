@@ -34,3 +34,8 @@ function sortObjArray(objArray, propName) {
     });
 } //sortObjArray()
 
+function render(entries) {
+    var instance = $('.template').clone();
+    
+}
+
