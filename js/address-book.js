@@ -35,7 +35,39 @@ function sortObjArray(objArray, propName) {
 } //sortObjArray()
 
 function render(entries) {
-    var instance = $('.template').clone();
-    
+    $('.address-book').hide();
+    $('.address-book').empty();
+    var template = $('.template');
+    var book = $('.address-book');
+
+    $.each(entries, function() {
+        var instance = template.clone();
+        instance.find('.first').html(this.first);
+        instance.find('.last').html(this.last);
+        instance.find('.title').html(this.title);
+        instance.find('.dept').html(this.dept);
+        instance.find('.pic').attr({
+            src: this.pic,
+            alt: 'Picture of ' + this.name
+        });
+        instance.removeClass('template');
+        book.append(instance);
+    });
+    book.fadeIn();
 }
 
+$(function() {
+    var entries = Employees.entries;
+    sortObjArray(entries, 'last');
+    render(entries);
+
+    $('.sort-ui .btn').click(function() {
+        var sortBtn = $(this);
+        var attribute = sortBtn.attr('data-sortby');
+        sortObjArray(entries, attribute);
+        render(entries);
+        var sibling = $(this).siblings();
+        sibling.removeClass('active');
+        this.addClass('active');
+    });
+});
